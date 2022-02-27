@@ -1,0 +1,1 @@
+convert -depth 8 -size 256x256+0 gray:gx.bin out.png

@@ -1,0 +1,1 @@
+convert -depth 8 -size 512x512+0 gray:result_512x512.raw res.png

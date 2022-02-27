@@ -1,0 +1,59 @@
+ReadMe
+
+1. Edge detection (Sobel filter) - SPMD
+=========================================
+Compile > g++ -std=c++11 -Wall -fopenmp sobel_omp.cpp -o sobel_omp
+run > ./sobel_omp ./input_and_output/img.bin 256 256
+output (convert bin to png) >  convert -depth 8 -size 256x256+0 gray:edge_img.bin edge_img.png
+
+Output observed (on a 4 core i5 CPU, using 4 threads):
+sobel_sequential time: 0.00766686s
+sobel_parallel_pragma time: 0.00239486s
+sobel_parallel_spmd time: 0.00140134s
+approx ~ 5x to 7x gain
+Note: oversubscription of threads will lead to performance degradation
+
+
+2. Template Matching (SAD : Sum of Absolute difference) - false sharing
+=======================================================================
+compile > g++ -std=c++11 -Wall -fopenmp sad_omp.cpp -o sad_omp
+run > ./sad_omp 
+
+Output observed (on a 4 core i5 CPU, using 4 threads):
+sad seq time: 0.0968972s
+sad pragma time: 0.0227429s
+approx ~ 4x gain
+
+
+3. Interpolation (on a 4 core i5 CPU, using 4 threads) - loop sharing construct
+===============================================================================
+compile >  g++ -std=c++11 -Wall -fopenmp interpolation.cpp -o interp
+run > ./interp
+output (convert bin to png) > convert -depth 8 -size 512x512+0 gray:result_512x512.raw res.png
+
+Output observed (on a 4 core i5 CPU, using 4 threads):
+interpolation_seq time: 0.00497234s
+interpolation_llel time: 0.0029076s
+approx ~ 2x gain
+
+
+4. Mergesort - Divide and conquer (on a 4 core i5 CPU, using 4 threads) - task sharing constuct
+===============================================================================================
+compile > g++ -std=c++11 -Wall -fopenmp mergesort.cpp -o mergesort
+run > ./mergesort
+
+mergesort seq time: 0.0116915s
+mergesort llel time: 0.00669205s
+approx ~ 1.5x gain
+
+Note: Only assign threads, for depth = 2 (in-case of 4 threads). (Line 66, 69 : arr_size/nthrds)
+Using sections-contruct leads to oversubscription.
+
+
+
+
+
+
+
+
+

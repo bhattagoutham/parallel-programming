@@ -1,0 +1,6 @@
+ReadMe
+======
+compile:
+>> mpic++ mpi_bfs.cpp -o mpi_bfs
+run:
+>> mpirun -np 4 mpi_bfs

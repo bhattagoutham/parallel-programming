@@ -49,6 +49,11 @@ approx ~ 1.5x gain
 Note: Only assign threads, for depth = 2 (in-case of 4 threads). (Line 66, 69 : arr_size/nthrds)
 Using sections-contruct leads to oversubscription.
 
+5. Graph BFS (OpenMPI) - Distributed computing
+==============================================
+compile > mpic++ mpi_bfs.cpp -o mpi_bfs
+run > mpirun -np 4 mpi_bfs
+
 
 
 
